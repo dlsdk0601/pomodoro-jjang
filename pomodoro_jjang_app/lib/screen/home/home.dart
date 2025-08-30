@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_jjang_app/view/layout.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Layout(
+      child: Column(
         children: [
           Center(child: Text('home')),
           const _Body(),
