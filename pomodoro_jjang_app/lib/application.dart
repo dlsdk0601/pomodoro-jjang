@@ -1,18 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pomodoro_jjang_app/config.dart';
+import 'package:pomodoro_jjang_app/ex/widget.dart';
 import 'package:pomodoro_jjang_app/screen/home/home.dart';
+import 'package:pomodoro_jjang_app/view/splash.dart';
 
 class Application extends HookConsumerWidget {
   const Application({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final initialized = useState(false);
+
+    useEffect(() {
+      Future(() async {
+        await Future.delayed(config.splashFadeDuration);
+        initialized.value = true;
+      });
+      return null;
+    }, []);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const HomeScreen(),
+      builder: mergeTransitionBuilder([
+        SplashFadeCoverView.init(
+          splash: const SplashView(),
+          hideSplash: initialized.value,
+          duration: config.splashFadeDuration,
+        ),
+        EasyLoading.init(),
+      ]),
     );
   }
 
