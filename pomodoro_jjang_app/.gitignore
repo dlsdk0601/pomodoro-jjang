@@ -45,5 +45,6 @@ app.*.map.json
 /android/app/release
 
 *.gen.dart
+*.g.dart
 
 main_local.dart
