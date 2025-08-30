@@ -21,9 +21,10 @@ void runPrdMain({
     level: level,
     initialize: () {
       config.apiServer = config.apiServer.replace(
-        host: 'pomodoro-jjang.dev-ina.pe.kr/api',
+        host: 'pomodoro-jjang.dev-ina.pe.kr',
         scheme: 'https',
         port: 443,
+        path: 'api',
       );
       initialize();
       logger.i('initializing production main');
