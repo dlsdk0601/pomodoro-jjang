@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pomodoro_jjang_app/config.dart';
 import 'package:pomodoro_jjang_app/ex/widget.dart';
-import 'package:pomodoro_jjang_app/screen/home/home.dart';
+import 'package:pomodoro_jjang_app/router.dart';
 import 'package:pomodoro_jjang_app/view/splash.dart';
 
 class Application extends HookConsumerWidget {
@@ -13,6 +13,9 @@ class Application extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final initialized = useState(false);
+    final router = useMemoized(
+      () => buildRouter(routerInitialLocation: config.routerInitialLocation),
+    );
 
     useEffect(() {
       Future(() async {
@@ -22,12 +25,12 @@ class Application extends HookConsumerWidget {
       return null;
     }, []);
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomeScreen(),
+      routerConfig: router,
       builder: mergeTransitionBuilder([
         SplashFadeCoverView.init(
           splash: const SplashView(),
