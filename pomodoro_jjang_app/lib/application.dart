@@ -61,4 +61,10 @@ class Application extends HookConsumerWidget {
       ),
     );
   }
+
+  static void restart() async {
+    await Future.delayed(kThemeAnimationDuration);
+
+    _runWithKey(providerKey: UniqueKey(), applicationKey: UniqueKey());
+  }
 }
