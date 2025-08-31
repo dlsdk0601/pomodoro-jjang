@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pomodoro_jjang_app/config.dart';
 import 'package:pomodoro_jjang_app/screen/console/console.dart';
 import 'package:pomodoro_jjang_app/screen/console/font.dart';
 import 'package:pomodoro_jjang_app/screen/home/home.dart';
@@ -42,10 +41,5 @@ class ConsoleFontRoute extends GoRouteData with _$ConsoleFontRoute {
 }
 
 GoRouter buildRouter({String? routerInitialLocation}) {
-  return GoRouter(
-    routes: $appRoutes,
-    initialLocation: routerInitialLocation == config.routerInitialLocation
-        ? null
-        : routerInitialLocation,
-  );
+  return GoRouter(routes: $appRoutes, initialLocation: routerInitialLocation);
 }
