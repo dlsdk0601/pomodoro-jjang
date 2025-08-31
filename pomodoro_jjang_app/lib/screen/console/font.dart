@@ -34,16 +34,16 @@ class _SentenceView extends StatelessWidget {
         Text(
           'The quick brown for jumps over the lazy dog',
           style: textStyle(
-            fontSize: 18,
-            lineHeight: 18,
+            fontSize: 16,
+            lineHeight: 16,
             fontWeight: fontWeight,
           ),
         ),
         Text(
           '2025년 힐링산업 종사자 전문화를 위한 자격증 취득과정 (지원)',
           style: textStyle(
-            fontSize: 18,
-            lineHeight: 18,
+            fontSize: 16,
+            lineHeight: 16,
             fontWeight: fontWeight,
           ),
         ),

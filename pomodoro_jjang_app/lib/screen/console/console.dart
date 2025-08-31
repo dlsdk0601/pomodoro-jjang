@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pomodoro_jjang_app/application.dart';
 import 'package:pomodoro_jjang_app/router.dart';
+import 'package:pomodoro_jjang_app/view/block.dart';
 import 'package:pomodoro_jjang_app/view/layout.dart';
 
 typedef ConsoleList = List<(String, List<Item>)>;
@@ -11,7 +13,37 @@ class ConsoleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ConsoleList consoleList = [
-      ('디자인', [Item(title: 'Font', location: ConsoleFontRoute().location)]),
+      (
+        '디자인',
+        [
+          Item(
+            title: 'Font',
+            onTap: (context) {
+              context.go(ConsoleFontRoute().location);
+            },
+          ),
+        ],
+      ),
+      (
+        '동작',
+        [
+          Item(
+            title: '재시작',
+            onTap: (context) {
+              Application.restart();
+            },
+          ),
+          Item(
+            title: '로딩',
+            onTap: (context) {
+              blockInitialize();
+              block(() {
+                return Future.delayed(const Duration(seconds: 3));
+              });
+            },
+          ),
+        ],
+      ),
     ];
 
     return Layout(
@@ -37,15 +69,15 @@ class _ItemView extends StatelessWidget {
     return ListTile(
       title: Text(item.title),
       onTap: () {
-        context.go(item.location);
+        item.onTap(context);
       },
     );
   }
 }
 
 class Item {
-  const Item({required this.title, required this.location});
+  const Item({required this.title, required this.onTap});
 
   final String title;
-  final String location;
+  final void Function(BuildContext context) onTap;
 }
