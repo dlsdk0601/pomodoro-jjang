@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_jjang_app/gen/fonts.gen.dart';
 
 const c464646 = Color(0xFF464646);
 const c90979D = Color(0xFF90979D);
@@ -15,3 +16,14 @@ const grey_004 = cF6F6F7;
 
 const blue_001 = c013775;
 const blue_002 = c0082C4;
+
+final theme = ThemeData(
+  brightness: Brightness.light,
+  fontFamily: FontFamily.suitStatic,
+  appBarTheme: AppBarTheme(backgroundColor: blue_001),
+);
+
+final darkTheme = theme.copyWith(
+  brightness: Brightness.dark,
+  appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+);

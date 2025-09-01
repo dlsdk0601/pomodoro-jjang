@@ -4,7 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pomodoro_jjang_app/config.dart';
 import 'package:pomodoro_jjang_app/ex/widget.dart';
+import 'package:pomodoro_jjang_app/model/app.dart';
 import 'package:pomodoro_jjang_app/router.dart';
+import 'package:pomodoro_jjang_app/view/color.dart';
 import 'package:pomodoro_jjang_app/view/splash.dart';
 
 class Application extends HookConsumerWidget {
@@ -12,29 +14,38 @@ class Application extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final initialized = useState(false);
+    final disposed = useRef(false);
+    final app = ref.watch(appProvider);
     final router = useMemoized(
       () => buildRouter(routerInitialLocation: config.routerInitialLocation),
     );
 
     useEffect(() {
       Future(() async {
-        await Future.delayed(config.splashFadeDuration);
-        initialized.value = true;
+        if (disposed.value) {
+          return;
+        }
+
+        if (!context.mounted) {
+          return;
+        }
+
+        ref.read(appProvider.notifier).setInitialized();
       });
-      return null;
+      return () {
+        disposed.value = true;
+      };
     }, []);
 
     return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: theme,
+      darkTheme: darkTheme,
+      themeMode: app.themeMode,
       routerConfig: router,
       builder: mergeTransitionBuilder([
         SplashFadeCoverView.init(
           splash: const SplashView(),
-          hideSplash: initialized.value,
+          hideSplash: app.initialized,
           duration: config.splashFadeDuration,
         ),
         EasyLoading.init(),

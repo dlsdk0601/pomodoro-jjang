@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pomodoro_jjang_app/application.dart';
+import 'package:pomodoro_jjang_app/ex/storage.dart';
+import 'package:pomodoro_jjang_app/model/app.dart';
 import 'package:pomodoro_jjang_app/router.dart';
 import 'package:pomodoro_jjang_app/view/block.dart';
 import 'package:pomodoro_jjang_app/view/layout.dart';
 
 typedef ConsoleList = List<(String, List<Item>)>;
 
-class ConsoleScreen extends StatelessWidget {
+class ConsoleScreen extends ConsumerWidget {
   const ConsoleScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final app = ref.watch(appProvider);
+
     final ConsoleList consoleList = [
       (
         '디자인',
@@ -20,6 +25,12 @@ class ConsoleScreen extends StatelessWidget {
             title: 'Font',
             onTap: (context) {
               context.go(ConsoleFontRoute().location);
+            },
+          ),
+          Item(
+            title: '다크 모드 (현재: ${app.themeMode.label})',
+            onTap: (context) {
+              ref.read(appProvider.notifier).setThemeMode();
             },
           ),
         ],
